@@ -27,8 +27,10 @@ app.use(express.urlencoded({ extended: false }))
 
 // 라우팅 설정
 const routes = require('./routes')
+const authRoutes = require('./routes/auth')
 
 app.use('/', routes)
+app.use('/', authRoutes)
 
 app.listen(3000, (err) => {
   if (err) {
