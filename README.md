@@ -18,6 +18,7 @@ DB_USERNAME = { your_database_username }
 DB_PASSWORD = { your_database_password }
 DB_DATEBASE = { your_database_name }
 DB_HOST = { your_database_host }
+SECRET = { your_jwt_token_key }
 ```
 
 ##  깃 커밋 (Commit) 규칙 🧨
