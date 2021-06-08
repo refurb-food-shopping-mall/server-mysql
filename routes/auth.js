@@ -56,6 +56,48 @@ router.post('/auth/signup', async (req, res) => {
   }
 })
 
+// [ 🍕 로그인 요청 🍕 ]
+router.post('/auth/login', async (req, res) => {
+  try {
+    const foundUser = await User.findOne({
+      where: {
+        user_email: req.body.userEmail
+      }
+    })
+
+    if (!foundUser) {
+      res.status(403).json({
+        success: false,
+        message: "인증 실패, 존재하지 않는 유저입니다."
+      })
+    } else {
+      console.log(req.body.userPassword)
+      const isValidUser = await bcrypt.compare(req.body.userPassword, foundUser.user_password) 
+      
+      if (isValidUser) {
+        const token = jwt.sign(foundUser.toJSON(), process.env.SECRET, {
+          expiresIn: '1h'
+        })
+
+        res.json({
+          success: true,
+          token,
+        })
+      } else {
+        res.status(403).json({
+          success: false,
+          message: "인증 실패, 비밀번호가 틀렸습니다."
+        })
+      }
+    }
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message
+    })
+  }
+})
+
 // [ 🍔 회원 프로필 조회 🍔 ]
 router.get('/auth/userprofile', verifyToken, (req, res) => {
   try {
@@ -70,5 +112,6 @@ router.get('/auth/userprofile', verifyToken, (req, res) => {
     })
   }
 })
+
 
 module.exports = router
