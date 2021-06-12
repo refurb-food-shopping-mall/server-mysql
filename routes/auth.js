@@ -81,13 +81,21 @@ router.post('/auth/login', async (req, res) => {
       const isValidUser = await bcrypt.compare(req.body.userPassword, foundUser.user_password) 
       
       if (isValidUser) {
-        const token = jwt.sign(foundUser.toJSON(), process.env.SECRET, {
+        const tokenData = jwt.sign(foundUser.toJSON(), process.env.SECRET, {
           expiresIn: '1h'
         })
 
+        const userData = {
+          userName: foundUser.user_name,
+          userPhoneNumber: foundUser.phone_number,
+          userEmail: foundUser.user_email,
+          userPointMoney: foundUser.user_point_money
+        }
+
         res.json({
           success: true,
-          token,
+          userData,
+          tokenData,
         })
       } else {
         res.status(403).json({
