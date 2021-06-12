@@ -7,6 +7,19 @@ const verifyToken = require('../middlewares/verify-token')
 
 // API sign-up 
 router.post('/auth/signup', async (req, res) => {
+  // TODO strength validation needed 
+  if (!req.body.userEmail || !req.body.userPassword || !req.body.userName || !req.body.userPhoneNumber) {
+    res.status(409).json({
+      success: false,
+      message: "폼의 모든 부분을 작성해주세요."
+    })
+  }
+  if (req.body.userPassword !== req.body.confirmPassword) {
+    res.status(409).json({
+      success: false,
+      message: "비밀번호가 일치하지 않습니다."
+    })
+  }
   // ... validate ....
   try {
     const isUserAlreadyExist = await User.findOne({
@@ -33,14 +46,21 @@ router.post('/auth/signup', async (req, res) => {
         user_point_money: 0
       })
 
-      const token = jwt.sign(newUser.toJSON(), process.env.SECRET, {
+      const tokenData = jwt.sign(newUser.toJSON(), process.env.SECRET, {
         expiresIn: '1h'
       })
 
+      const userData = {
+        userName: req.body.userName,
+        userPhoneNumber: req.body.userPhoneNumber,
+        userEmail: req.body.userEmail,
+        userPointMoney: req.body.userPointMoney
+      }
+
       res.json({
         success: true,
-        token,
-        message: "유저 생성 완료"
+        userData,
+        tokenData,
       })
     } else {
       res.status(500).json({
@@ -58,6 +78,7 @@ router.post('/auth/signup', async (req, res) => {
 
 // API login 
 router.post('/auth/login', async (req, res) => {
+  // TODO strength validation needed 
   try {
     if (req.body.userPassword === '' || req.body.userEmail === '') {
       res.status(403).json({
