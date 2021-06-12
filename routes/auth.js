@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken')
 const verifyToken = require('../middlewares/verify-token')
 
 
-// [ 🍕 회원가입 🍕 ]
+// API sign-up 
 router.post('/auth/signup', async (req, res) => {
   // ... validate ....
   try {
@@ -56,9 +56,16 @@ router.post('/auth/signup', async (req, res) => {
   }
 })
 
-// [ 🍕 로그인 요청 🍕 ]
+// API login 
 router.post('/auth/login', async (req, res) => {
   try {
+    if (req.body.userPassword === '' || req.body.userEmail === '') {
+      res.status(403).json({
+        success: false,
+        message: "아이디나 패스워드가 입력되지 않았습니다."
+      })
+    } 
+
     const foundUser = await User.findOne({
       where: {
         user_email: req.body.userEmail
@@ -71,7 +78,6 @@ router.post('/auth/login', async (req, res) => {
         message: "인증 실패, 존재하지 않는 유저입니다."
       })
     } else {
-      console.log(req.body.userPassword)
       const isValidUser = await bcrypt.compare(req.body.userPassword, foundUser.user_password) 
       
       if (isValidUser) {
@@ -98,7 +104,7 @@ router.post('/auth/login', async (req, res) => {
   }
 })
 
-// [ 🍔 회원 프로필 조회 🍔 ]
+// API get user profile 
 router.get('/auth/userprofile', verifyToken, (req, res) => {
   try {
     res.json({
