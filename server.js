@@ -3,6 +3,9 @@ const morgan = require('morgan')
 const dotenv = require('dotenv')
 const cors = require('cors')
 const { sequelize } = require('./models');
+const  initModels  =  require ( "./models/init-models" );
+
+const  models  =  initModels ( sequelize );
 
 dotenv.config()
 
