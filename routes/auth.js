@@ -9,13 +9,13 @@ const verifyToken = require('../middlewares/verify-token')
 router.post('/auth/signup', async (req, res) => {
   // TODO strength validation needed 
   if (!req.body.userEmail || !req.body.userPassword || !req.body.userName || !req.body.userPhoneNumber) {
-    res.status(409).json({
+    res.status(403).json({
       success: false,
       message: "폼의 모든 부분을 작성해주세요."
     })
   }
   if (req.body.userPassword !== req.body.confirmPassword) {
-    res.status(409).json({
+    res.status(403).json({
       success: false,
       message: "비밀번호가 일치하지 않습니다."
     })
@@ -29,7 +29,7 @@ router.post('/auth/signup', async (req, res) => {
     })
 
     if (isUserAlreadyExist) {
-      res.status(409).json({
+      res.status(403).json({
         success: false,
         message: "이미 등록된 이메일 계정입니다. 다른 이메일을 선택해주세요."
       })
