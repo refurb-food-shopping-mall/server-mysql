@@ -2,6 +2,30 @@ const router = require('express').Router()
 const Review = require('../models/review')
 const User = require('../models/user')
 
+// [ 특정 user 조회 ]
+router.get('/auth/user', verfiyToken, async (req, res) => {
+  try {
+    // verify-token 미들웨어에서 token 을 확인하면 req.decode에 유저 정보를 넣어줌.
+    // token을 확인하지 못하면 api 접근 불가.
+
+    // req.decode 확인 =>
+    //  console.log(req.decode)
+    console.log('hi')
+    const user = await User.findOne({ _id: req.decode._id })
+
+    res.json({
+      success: true,
+      user,
+    })
+
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message
+    })
+  }
+})
+
 // [ user 전체 조회 ]
 router.get('/user', async (req, res) => {
   try {
