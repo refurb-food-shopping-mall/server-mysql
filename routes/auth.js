@@ -2,8 +2,6 @@ const router = require('express').Router()
 const User = require("../models/user")
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const verifyToken = require('../middlewares/verify-token')
-
 
 // API sign-up 
 router.post('/auth/signup', async (req, res) => {
@@ -134,7 +132,7 @@ router.post('/auth/login', async (req, res) => {
 })
 
 // API get user profile 
-router.get('/auth/userprofile', verifyToken, (req, res) => {
+router.get('/auth/userprofile', (req, res) => {
   try {
     res.json({
       success: true,
