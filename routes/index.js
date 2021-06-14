@@ -1,9 +1,10 @@
 const router = require('express').Router()
 const Review = require('../models/review')
 const User = require('../models/user')
+const verifyToken = require('../middlewares/verify-token')
 
 // [ 특정 user 조회 ]
-router.get('/auth/user', verfiyToken, async (req, res) => {
+router.get('/auth/user', verifyToken, async (req, res) => {
   try {
     // verify-token 미들웨어에서 token 을 확인하면 req.decode에 유저 정보를 넣어줌.
     // token을 확인하지 못하면 api 접근 불가.
