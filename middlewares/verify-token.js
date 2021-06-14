@@ -9,7 +9,7 @@ module.exports = function (req, res, next) {
 
     jwt.verify(token, process.env.SECRET, (err, decode) => {
       if (err) {
-        res.json({
+        res.status(404).json({
           success: false,
           message: "인증 실패"
         })
