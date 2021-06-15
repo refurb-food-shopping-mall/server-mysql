@@ -51,6 +51,16 @@ class t_product extends Sequelize.Model {
       type: DataTypes.DATE,
       allowNull: false,
       defaultValue: Sequelize.Sequelize.fn('current_timestamp')
+    },
+    average_star_grade: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: true,
+      comment: "별점 평균"
+    },
+    acknowledged_product: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: false,
+      comment: "0-판매가 승인되지 않은 상품, 1-판매 승인된 상품"
     }
   }, {
     sequelize,
