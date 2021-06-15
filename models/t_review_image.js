@@ -20,6 +20,14 @@ class t_review_image extends Sequelize.Model {
         key: 'id'
       }
     },
+    product_id: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: false,
+      references: {
+        model: 't_product',
+        key: 'id'
+      }
+    },
     path: {
       type: DataTypes.STRING(150),
       allowNull: false
@@ -35,6 +43,13 @@ class t_review_image extends Sequelize.Model {
         using: "BTREE",
         fields: [
           { name: "id" },
+        ]
+      },
+      {
+        name: "FK_t_review_image_t_product",
+        using: "BTREE",
+        fields: [
+          { name: "product_id" },
         ]
       },
       {

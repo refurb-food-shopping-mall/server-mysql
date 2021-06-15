@@ -22,14 +22,21 @@ function initModels(sequelize) {
   t_address.hasMany(t_order, { as: "t_orders", foreignKey: "address_id"});
   t_order.belongsTo(t_product, { as: "product", foreignKey: "product_id"});
   t_product.hasMany(t_order, { as: "t_orders", foreignKey: "product_id"});
+
   t_product_image.belongsTo(t_product, { as: "product", foreignKey: "product_id"});
   t_product.hasMany(t_product_image, { as: "t_product_images", foreignKey: "product_id"});
+
   t_question.belongsTo(t_product, { as: "product", foreignKey: "product_id"});
   t_product.hasMany(t_question, { as: "t_questions", foreignKey: "product_id"});
   t_review.belongsTo(t_product, { as: "product", foreignKey: "product_id"});
   t_product.hasMany(t_review, { as: "t_reviews", foreignKey: "product_id"});
+
   t_review_image.belongsTo(t_review, { as: "review", foreignKey: "review_id"});
   t_review.hasMany(t_review_image, { as: "t_review_images", foreignKey: "review_id"});
+
+  t_review_image.belongsTo(t_product, { as: "product", foreignKey: "product_id"});
+  t_product.hasMany(t_review_image, { as: "t_review_images", foreignKey: "product_id"});
+
   t_address.belongsTo(t_user, { as: "user", foreignKey: "user_id"});
   t_user.hasMany(t_address, { as: "t_addresses", foreignKey: "user_id"});
   t_order.belongsTo(t_user, { as: "user", foreignKey: "user_id"});
