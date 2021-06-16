@@ -12,12 +12,12 @@ class t_product extends Sequelize.Model {
       allowNull: false,
       primaryKey: true
     },
-    register_user_id: {
+    seller_id: {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: true,
       defaultValue: 0,
       references: {
-        model: 't_user',
+        model: 't_seller',
         key: 'id'
       }
     },
@@ -76,10 +76,10 @@ class t_product extends Sequelize.Model {
         ]
       },
       {
-        name: "FK_t_product_t_user",
+        name: "FK_t_product_t_seller",
         using: "BTREE",
         fields: [
-          { name: "register_user_id" },
+          { name: "seller_id" },
         ]
       },
     ]

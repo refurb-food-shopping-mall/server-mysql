@@ -1,9 +1,9 @@
 const Sequelize = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  return t_user.init(sequelize, DataTypes);
+  return t_seller.init(sequelize, DataTypes);
 }
 
-class t_user extends Sequelize.Model {
+class t_seller extends Sequelize.Model {
   static init(sequelize, DataTypes) {
   super.init({
     id: {
@@ -12,7 +12,7 @@ class t_user extends Sequelize.Model {
       allowNull: false,
       primaryKey: true
     },
-    user_name: {
+    seller_name: {
       type: DataTypes.STRING(20),
       allowNull: false
     },
@@ -20,22 +20,18 @@ class t_user extends Sequelize.Model {
       type: DataTypes.STRING(20),
       allowNull: false
     },
-    user_email: {
+    seller_email: {
       type: DataTypes.STRING(1024),
       allowNull: false,
-      unique: "user_email"
+      unique: "seller_email"
     },
-    user_password: {
+    seller_password: {
       type: DataTypes.STRING(1024),
       allowNull: false
-    },
-    user_point_money: {
-      type: DataTypes.INTEGER.UNSIGNED,
-      allowNull: false
-    }
+    },   
   }, {
     sequelize,
-    tableName: 't_user',
+    tableName: 't_seller',
     timestamps: true,
     paranoid: true,
     indexes: [
@@ -48,15 +44,15 @@ class t_user extends Sequelize.Model {
         ]
       },
       {
-        name: "user_email",
+        name: "seller_email",
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "user_email" },
+          { name: "seller_email" },
         ]
       },
     ]
   });
-  return t_user;
+  return t_seller;
   }
 }
