@@ -37,7 +37,7 @@ const productroutes = require('./routes/product.js');
 
 app.use('/api', routes)
 app.use('/api', authRoutes)
-app.use('/api/product', productroutes)
+app.use('/api', productroutes)
 
 app.listen(3000, (err) => {
   if (err) {
