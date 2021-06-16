@@ -7,6 +7,8 @@ var _t_question = require("./t_question");
 var _t_review = require("./t_review");
 var _t_review_image = require("./t_review_image");
 var _t_user = require("./t_user");
+var _t_seller = require("./t_seller");
+var _t_user_bussiness_type = require("./t_user_bussiness_type");
 
 function initModels(sequelize) {
   var t_address = _t_address(sequelize, DataTypes);
@@ -17,6 +19,8 @@ function initModels(sequelize) {
   var t_review = _t_review(sequelize, DataTypes);
   var t_review_image = _t_review_image(sequelize, DataTypes);
   var t_user = _t_user(sequelize, DataTypes);
+  var t_seller = _t_seller(sequelize, DataTypes);
+  var t_user_bussiness_type = _t_user_bussiness_type(sequelize, DataTypes);
 
   t_order.belongsTo(t_address, { as: "address", foreignKey: "address_id"});
   t_address.hasMany(t_order, { as: "t_orders", foreignKey: "address_id"});
@@ -39,14 +43,23 @@ function initModels(sequelize) {
 
   t_address.belongsTo(t_user, { as: "user", foreignKey: "user_id"});
   t_user.hasMany(t_address, { as: "t_addresses", foreignKey: "user_id"});
+
   t_order.belongsTo(t_user, { as: "user", foreignKey: "user_id"});
   t_user.hasMany(t_order, { as: "t_orders", foreignKey: "user_id"});
-  t_product.belongsTo(t_user, { as: "register_user", foreignKey: "register_user_id"});
-  t_user.hasMany(t_product, { as: "t_products", foreignKey: "register_user_id"});
+
+  t_product.belongsTo(t_seller, { as: "seller", foreignKey: "seller_id"});
+  t_seller.hasMany(t_product, { as: "t_products", foreignKey: "seller_id"});
+
   t_question.belongsTo(t_user, { as: "user", foreignKey: "user_id"});
+
   t_user.hasMany(t_question, { as: "t_questions", foreignKey: "user_id"});
   t_review.belongsTo(t_user, { as: "user", foreignKey: "user_id"});
   t_user.hasMany(t_review, { as: "t_reviews", foreignKey: "user_id"});
+
+  t_user_bussiness_type.belongsTo(t_user, { as: "user", foreignKey: "user_id"});
+  t_user.hasMany(t_user_bussiness_type, { as: "t_user_bussiness_types", foreignKey: "user_id"});
+
+
 
   return {
     t_address,
@@ -57,6 +70,8 @@ function initModels(sequelize) {
     t_review,
     t_review_image,
     t_user,
+    t_seller,
+    t_user_bussiness_type,
   };
 }
 module.exports = initModels;
