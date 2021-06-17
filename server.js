@@ -33,7 +33,7 @@ app.use(express.urlencoded({ extended: false }))
 // 라우팅 설정
 const routes = require('./routes')
 const authRoutes = require('./routes/auth')
-const productroutes = require('./routes/product.js');
+const productroutes = require('./routes/product');
 
 app.use('/api', routes)
 app.use('/api', authRoutes)
