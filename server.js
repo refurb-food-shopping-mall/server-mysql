@@ -34,10 +34,12 @@ app.use(express.urlencoded({ extended: false }))
 const routes = require('./routes')
 const authRoutes = require('./routes/auth')
 const productroutes = require('./routes/product');
+const pdatilroutes = require('./routes/pdetail');
 
 app.use('/api', routes)
 app.use('/api', authRoutes)
 app.use('/api', productroutes)
+app.use('/api', pdatilroutes)
 
 app.listen(3000, (err) => {
   if (err) {
