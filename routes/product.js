@@ -12,26 +12,24 @@ router.post('/product/thumnail', async (req, res) => {
     for(let i = 0 ; i < req.body.productarray.length ; i++){
         let product =  await models.t_product.findAll({
                             where : {
-                                id : req.body.productarray[i].product_id
+                                id : req.body.productarray[i]
                             },
                             include: [{
                                 as : 't_product_images',
                                 model: models.t_product_image,
                                 attributes: ['path'],
                                 where: {
-                                    product_id : req.body.productarray[i].product_id,
+                                    product_id : req.body.productarray[i],
                                     type_image : 1
                                 }
                             }]
-                       })
+                        })
         //console.log(product[0].dataValues);
         //console.log(product[0].dataValues.t_product_images[0].dataValues);
-        product[0].dataValues.product_count = req.body.productarray[i].prodcut_count;
         res_array.push(product[0].dataValues);
     }
     //console.log(res_array);
-    res.send(res_array);
-    
+    res.send(res_array);   
 });
 
 
