@@ -49,9 +49,9 @@ class t_order extends Sequelize.Model {
       allowNull: false
     },
     order_status: {
-      type: DataTypes.INTEGER.UNSIGNED,
+      type: DataTypes.STRING(30),
       allowNull: false,
-      comment: "1.입금대기 2.배송준비중 3.배송중 4.배송완료 5.반품완료"
+      comment: "입금대기, 배송준비중, 배송중, 배송완료, 반품완료"
     },
     ordered_day: {
       type: DataTypes.DATE,
@@ -65,6 +65,11 @@ class t_order extends Sequelize.Model {
     used_point: {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false
+    },
+    patment_method: {
+      type: DataTypes.STRING(30),
+      allowNull: false,
+      comment: "카카오페이, 가상계좌, 신용 / 체크 카드, 계좌이체"
     }
   }, {
     sequelize,
