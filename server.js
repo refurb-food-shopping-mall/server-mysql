@@ -34,10 +34,15 @@ app.use(express.urlencoded({ extended: false }))
 const routes = require('./routes')
 const authRoutes = require('./routes/auth')
 const productroutes = require('./routes/product');
+const reviewroutes = require('./routes/review');
+const qnaroutes = require('./routes/qna');
 
 app.use('/api', routes)
 app.use('/api', authRoutes)
 app.use('/api', productroutes)
+app.use('/api', reviewroutes)
+app.use('/api', qnaroutes)
+
 
 app.listen(3000, (err) => {
   if (err) {
