@@ -68,4 +68,22 @@ router.post('/product', async (req, res) => {
     }
 })
 
+//제품 상세페이지_상단 제품 기본 정보
+router.get('/product/:id', async (req, res) => {
+    try {
+      const product_info = await models.t_product.findOne({where : {id : req.params.id}})
+      res.json({
+        
+        product_info
+
+      })
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        message: err.message
+      })
+    }
+  });
+
+
 module.exports = router
