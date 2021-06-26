@@ -3,9 +3,9 @@ const morgan = require('morgan')
 const dotenv = require('dotenv')
 const cors = require('cors')
 const { sequelize } = require('./models');
-const  initModels  =  require ( "./models/init-models" );
+const initModels = require("./models/init-models");
 
-const  models  =  initModels ( sequelize );
+const models = initModels(sequelize);
 
 dotenv.config()
 
@@ -23,9 +23,9 @@ sequelize.sync({ force: false })
   })
 
 // 미들웨어 등록
-app.use(cors({
-  origin: 'http://localhost:8080'
-}))
+app.use(cors(
+  // origin: 'http://localhost:8080'
+))
 app.use(morgan('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
@@ -34,15 +34,25 @@ app.use(express.urlencoded({ extended: false }))
 const routes = require('./routes')
 const authRoutes = require('./routes/auth')
 const productroutes = require('./routes/product');
+<<<<<<< HEAD
 const reviewroutes = require('./routes/review');
 const qnaroutes = require('./routes/qna');
+=======
+const pdatilroutes = require('./routes/pdetail');
+const addressroutes = require('./routes/address');
+>>>>>>> e9c01785adf0ff7bd9dd57a3ab9e39e9bf90fad7
 
 app.use('/api', routes)
 app.use('/api', authRoutes)
 app.use('/api', productroutes)
+<<<<<<< HEAD
 app.use('/api', reviewroutes)
 app.use('/api', qnaroutes)
 
+=======
+app.use('/api', pdatilroutes)
+app.use('/api', addressroutes)
+>>>>>>> e9c01785adf0ff7bd9dd57a3ab9e39e9bf90fad7
 
 app.listen(3000, (err) => {
   if (err) {
