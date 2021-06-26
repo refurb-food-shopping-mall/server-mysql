@@ -3,9 +3,9 @@ const morgan = require('morgan')
 const dotenv = require('dotenv')
 const cors = require('cors')
 const { sequelize } = require('./models');
-const  initModels  =  require ( "./models/init-models" );
+const initModels = require("./models/init-models");
 
-const  models  =  initModels ( sequelize );
+const models = initModels(sequelize);
 
 dotenv.config()
 
@@ -23,9 +23,9 @@ sequelize.sync({ force: false })
   })
 
 // 미들웨어 등록
-app.use(cors({
-  origin: 'http://localhost:8080'
-}))
+app.use(cors(
+  // origin: 'http://localhost:8080'
+))
 app.use(morgan('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
