@@ -66,7 +66,7 @@ class t_order extends Sequelize.Model {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false
     },
-    patment_method: {
+    payment_method: {
       type: DataTypes.STRING(30),
       allowNull: false,
       comment: "카카오페이, 가상계좌, 신용 / 체크 카드, 계좌이체"
