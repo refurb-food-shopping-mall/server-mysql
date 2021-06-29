@@ -48,13 +48,13 @@ class t_address extends Sequelize.Model {
       type: DataTypes.STRING(40),
       allowNull: false
     },
-    address_type: {
-      type: DataTypes.INTEGER.UNSIGNED,
+    address_list: {
+      type: DataTypes.BOOLEAN,
       allowNull: false,
-      comment: "1-배송지목록의배송지, 2-임시배송지"
+      comment: "1-배송지목록의배송지, 0-임시배송지"
     },
     default_address: {
-      type: DataTypes.INTEGER.UNSIGNED,
+      type: DataTypes.BOOLEAN,
       allowNull: false,
       comment: "1-기본배송지, 0-그외"
     }
