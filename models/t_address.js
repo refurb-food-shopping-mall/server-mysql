@@ -29,7 +29,7 @@ class t_address extends Sequelize.Model {
       allowNull: true
     },
     post_code: {
-      type: DataTypes.INTEGER.UNSIGNED,
+      type: DataTypes.STRING(20),
       allowNull: false
     },
     city: {
@@ -44,13 +44,9 @@ class t_address extends Sequelize.Model {
       type: DataTypes.STRING(60),
       allowNull: false
     },
-    first_phonenumber: {
+    phonenumber: {
       type: DataTypes.STRING(40),
       allowNull: false
-    },
-    second_phonenumber: {
-      type: DataTypes.STRING(40),
-      allowNull: true
     },
     address_type: {
       type: DataTypes.INTEGER.UNSIGNED,
