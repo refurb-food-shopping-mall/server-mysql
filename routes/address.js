@@ -22,6 +22,25 @@ router.post('/address/default', async (req, res) => {
             message: err.message
         })
     }    
+}),
+
+router.post('/address/list', async (req, res) => {
+    try {
+        let useraddresslist = await models.t_address.findAll({
+            where : {
+                user_id : req.body.user_id
+            }
+        })
+        res.json({
+            success : true,
+            useraddresslist
+        })
+    } catch (err) {
+        res.status(500).json({
+            success : false,
+            message : err.message
+        })
+    }
 })
 
 
