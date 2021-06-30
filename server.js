@@ -38,6 +38,7 @@ const reviewroutes = require('./routes/review');
 const qnaroutes = require('./routes/qna');
 const pdatilroutes = require('./routes/pdetail');
 const addressroutes = require('./routes/address');
+const orderroutes = require('./routes/order');
 
 
 app.use('/api', routes)
@@ -47,6 +48,7 @@ app.use('/api', reviewroutes)
 app.use('/api', qnaroutes)
 app.use('/api', pdatilroutes)
 app.use('/api', addressroutes)
+app.use('/api', orderroutes)
 
 
 app.listen(3000, (err) => {
