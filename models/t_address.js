@@ -32,11 +32,7 @@ class t_address extends Sequelize.Model {
       type: DataTypes.STRING(20),
       allowNull: false
     },
-    city: {
-      type: DataTypes.STRING(40),
-      allowNull: false
-    },
-    road_name: {
+    address: {
       type: DataTypes.STRING(60),
       allowNull: false
     },
