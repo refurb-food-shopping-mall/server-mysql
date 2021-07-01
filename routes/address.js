@@ -4,6 +4,7 @@ const  initModels  =  require ( "../models/init-models" );
 
 const  models  =  initModels ( sequelize );
 
+//사용자의 기본 배송지를 가져오는 라우터
 router.post('/address/default', async (req, res) => {
     try{
         let useraddress = await models.t_address.findAll({ 
@@ -24,6 +25,7 @@ router.post('/address/default', async (req, res) => {
     }    
 }),
 
+// 사용자의 배송지 목록을 가져오는 라우터
 router.post('/address/list', async (req, res) => {
     try {
         let useraddresslist = await models.t_address.findAll({

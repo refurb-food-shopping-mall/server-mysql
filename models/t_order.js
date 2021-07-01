@@ -12,6 +12,10 @@ class t_order extends Sequelize.Model {
       allowNull: false,
       primaryKey: true
     },
+    order_number : {
+      type: DataTypes.STRING(50),
+      allowNull: false,
+    },
     user_id: {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
