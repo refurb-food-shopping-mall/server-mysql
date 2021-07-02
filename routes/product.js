@@ -79,7 +79,7 @@ router.post('/product', async (req, res) => {
     }
 })
 
-//제품 상세페이지_상단 제품 기본 정보
+// 특정 제품의 정보 + 썸네일 이미지들 요청
 router.get('/product/:id', async (req, res) => {
     try {
         const product_info = await models.t_product.findOne({
@@ -88,9 +88,12 @@ router.get('/product/:id', async (req, res) => {
                 model: models.t_product_image,
                 attributes: ['path'],
                 where: {
-                    id: req.params.id
+                    type_image: 2
                 }
-            }]
+            }],
+            where: {
+                id: req.params.id
+            }
         })
         res.json({
             product_info
