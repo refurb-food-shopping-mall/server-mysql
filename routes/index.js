@@ -3,6 +3,10 @@ const Review = require('../models/review')
 const User = require('../models/user')
 const verifyToken = require('../middlewares/verify-token')
 
+const { sequelize } = require('../models');
+const initModels = require("../models/init-models");
+const models = initModels(sequelize);
+
 // [ 특정 user 조회 ]
 router.get('/auth/user', verifyToken, async (req, res) => {
   try {
@@ -139,6 +143,39 @@ router.delete('/review/:id', async (req, res) => {
       message: err.message
     })
   }
+})
+
+
+// 유저가 사용한 포인트 반영
+router.post('/userpoint', async (req, res) => {
+    try {
+      // console.log(req.body)
+      models.t_user.findAll({ 
+          where : {
+              id : req.body.user_id
+          },
+          attributes: ['user_point_money'],
+      })
+      .then((user) => {
+          if(user[0].dataValues.user_point_money - req.body.used_point < 0){
+              res.status(500).json({
+                  success: false,
+                  message: "알 수 없는 에러"
+                })
+          }
+          models.t_user.update({
+              user_point_money : user[0].dataValues.user_point_money - req.body.used_point
+          }, {
+              where : { id : req.body.user_id }
+          })
+        
+      })
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        message: err.message
+      })
+    }    
 })
 
 module.exports = router

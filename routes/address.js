@@ -45,6 +45,33 @@ router.post('/address/list', async (req, res) => {
     }
 })
 
+// 신규배송지를 저장
+router.post('/address/save', async (req, res) => {
+    console.log(req.body);
+    try {
+        let newaddress = await models.t_address.create({
+            user_id : req.body.user_id,
+            receiver : req.body.receiver,
+            address_name : req.body.address_name,
+            post_code : req.body.post_code,
+            address : req.body.address,
+            detailed_address : req.body.detail_adress,
+            phonenumber : req.body.phonenumber,
+            address_list : req.body.address_list,
+            default_address : req.body.default_address
+        })
+        console.log(newaddress.dataValues.id)
+        res.json({
+            success : true,
+            address_id : newaddress.dataValues.id
+        })
+    } catch (err) {
+        res.status(500).json({
+            success : false,
+            message : err.message
+        })
+    }
+})
 
 
 module.exports = router
