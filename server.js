@@ -40,7 +40,8 @@ const qnaroutes = require('./routes/qna');
 // =======
 const pdatilroutes = require('./routes/pdetail');
 const addressroutes = require('./routes/address');
-// >>>>>>> e9c01785adf0ff7bd9dd57a3ab9e39e9bf90fad7
+// const orderroutes = require('./routes/order');
+
 
 app.use('/api', routes)
 app.use('/api', authRoutes)
@@ -52,7 +53,8 @@ app.use('/api', qnaroutes)
 // =======
 app.use('/api', pdatilroutes)
 app.use('/api', addressroutes)
-// >>>>>>> e9c01785adf0ff7bd9dd57a3ab9e39e9bf90fad7
+// app.use('/api', orderroutes)
+
 
 app.listen(3000, (err) => {
   if (err) {
