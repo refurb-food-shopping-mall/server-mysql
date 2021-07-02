@@ -34,26 +34,21 @@ app.use(express.urlencoded({ extended: false }))
 const routes = require('./routes')
 const authRoutes = require('./routes/auth')
 const productroutes = require('./routes/product');
-// <<<<<<< HEAD
 const reviewroutes = require('./routes/review');
 const qnaroutes = require('./routes/qna');
-// =======
 const pdatilroutes = require('./routes/pdetail');
 const addressroutes = require('./routes/address');
-// const orderroutes = require('./routes/order');
+//const orderroutes = require('./routes/order');
 
 
 app.use('/api', routes)
 app.use('/api', authRoutes)
 app.use('/api', productroutes)
-// <<<<<<< HEAD
 app.use('/api', reviewroutes)
 app.use('/api', qnaroutes)
-
-// =======
 app.use('/api', pdatilroutes)
 app.use('/api', addressroutes)
-// app.use('/api', orderroutes)
+//app.use('/api', orderroutes)
 
 
 app.listen(3000, (err) => {
