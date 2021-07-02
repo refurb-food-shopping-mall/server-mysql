@@ -47,6 +47,11 @@ class t_product extends Sequelize.Model {
       allowNull: false,
       comment: "판매가능한 상품 총량"
     },
+    harvested_date: {
+      type: DataTypes.DATEONLY,
+      allowNull: false,
+      comment: "수확한 날짜(YYYY-MM-DD)"
+    },
     created_date: {
       type: DataTypes.DATE,
       allowNull: false,

@@ -82,7 +82,17 @@ router.post('/product', async (req, res) => {
 //제품 상세페이지_상단 제품 기본 정보
 router.get('/product/:id', async (req, res) => {
     try {
-      const product_info = await models.t_product.findOne({where : {id : req.params.id}})
+      const product_info = await models.t_product.findOne({where : {id : req.params.id},
+    include: [{
+        as: 't_product_images',
+        model: models.t_product_image,
+        attributes: ['path'],
+        where: {
+            product_id: req.params.id,
+            type_image: 2
+        }
+        
+    }]})
       res.json({
         
         product_info
@@ -95,6 +105,6 @@ router.get('/product/:id', async (req, res) => {
       })
     }
   });
-
-
+  
 module.exports = router
+
