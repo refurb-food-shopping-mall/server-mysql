@@ -82,29 +82,51 @@ router.post('/product', async (req, res) => {
 // 특정 제품의 정보 + 썸네일 이미지들 요청
 router.get('/product/:id', async (req, res) => {
     try {
-        const product_info = await models.t_product.findOne({
-            include: [{
-                as: 't_product_images',
-                model: models.t_product_image,
-                attributes: ['path'],
-                where: {
-                    type_image: 2
-                }
-            }],
-            where: {
-                id: req.params.id
-            }
-        })
-        res.json({
-            product_info
-        })
+      const product_info = await models.t_product.findOne({where : {id : req.params.id},
+    include: [{
+        as: 't_product_images',
+        model: models.t_product_image,
+        attributes: ['path'],
+        where: {
+            product_id: req.params.id,
+            type_image: 2
+        }
+        
+    }]})
+      res.json({
+        
+        product_info
+
+      })
+
+        // const product_info = await models.t_product.findOne({
+        //     include: [{
+        //         as: 't_product_images',
+        //         model: models.t_product_image,
+        //         attributes: ['path'],
+        //         where: {
+        //             type_image: 2
+        //         }
+        //     }],
+        //     where: {
+        //         id: req.params.id
+        //     }
+        // })
+        // res.json({
+        //     product_info
+        // })
+
     } catch (err) {
         res.status(500).json({
             success: false,
             message: err.message
         })
     }
-});
 
-
+  });
+  
 module.exports = router
+
+// });
+
+
