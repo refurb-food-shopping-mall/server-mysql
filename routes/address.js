@@ -30,7 +30,8 @@ router.post('/address/list', async (req, res) => {
     try {
         let useraddresslist = await models.t_address.findAll({
             where : {
-                user_id : req.body.user_id
+                user_id : req.body.user_id,
+                address_list : 1
             }
         })
         res.json({
