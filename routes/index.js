@@ -1,6 +1,4 @@
 const router = require('express').Router()
-const Review = require('../models/review')
-const User = require('../models/user')
 const verifyToken = require('../middlewares/verify-token')
 
 const { sequelize } = require('../models');
@@ -16,7 +14,7 @@ router.get('/auth/user', verifyToken, async (req, res) => {
     // req.decode 확인 =>
     //  console.log(req.decode)
     console.log('hi')
-    const user = await User.findOne({ _id: req.decode._id })
+    const user = await models.t_user.findOne({ _id: req.decode._id })
 
     res.json({
       success: true,
@@ -34,7 +32,7 @@ router.get('/auth/user', verifyToken, async (req, res) => {
 // [ user 전체 조회 ]
 router.get('/user', async (req, res) => {
   try {
-    const users = await User.findAll()
+    const users = await models.t_user.findAll()
     res.json({
       success: true,
       users,
@@ -50,7 +48,7 @@ router.get('/user', async (req, res) => {
 // [ user 등록 ]
 router.post('/user', async (req, res) => {
   try {
-    const user = await User.create({
+    const user = await models.t_user.create({
       user_name: req.body.name,
       phone_number: req.body.phoneNumber,
       user_email: req.body.email,
@@ -69,7 +67,7 @@ router.post('/user', async (req, res) => {
 // [ 리뷰 등록 ]
 router.post('/review', async (req, res) => {
   try {
-    const review = await Review.create({
+    const review = await models.t_review.create({
       commenter: req.body.id,
       review_title: req.body.review,
       review_description: req.body.description,
@@ -90,7 +88,7 @@ router.post('/review', async (req, res) => {
 // [ 특정 유저가 쓴 리뷰 조회 ]
 router.get('/:id/reviews', async (req, res) => {
   try {
-    const reviews = await Review.findAll({
+    const reviews = await models.t_review.findAll({
       where: { commenter: req.params.id },
       // include: {
       //   model: User,
@@ -112,7 +110,7 @@ router.get('/:id/reviews', async (req, res) => {
 // [ 리뷰 전체 조회 ]
 router.get('/reviews', async (req, res) => {
   try {
-    const reviews = await Review.findAll()
+    const reviews = await models.t_review.findAll()
     res.json({
       success: true,
       reviews
@@ -128,7 +126,7 @@ router.get('/reviews', async (req, res) => {
 // [ 특정 리뷰 삭제 ]
 router.delete('/review/:id', async (req, res) => {
   try {
-    const result = await Review.destroy({
+    const result = await models.t_review.destroy({
       where: {
         id: req.params.id
       }
@@ -148,34 +146,34 @@ router.delete('/review/:id', async (req, res) => {
 
 // 유저가 사용한 포인트 반영
 router.post('/userpoint', async (req, res) => {
-    try {
-      // console.log(req.body)
-      models.t_user.findAll({ 
-          where : {
-              id : req.body.user_id
-          },
-          attributes: ['user_point_money'],
-      })
+  try {
+    // console.log(req.body)
+    models.t_user.findAll({
+      where: {
+        id: req.body.user_id
+      },
+      attributes: ['user_point_money'],
+    })
       .then((user) => {
-          if(user[0].dataValues.user_point_money - req.body.used_point < 0){
-              res.status(500).json({
-                  success: false,
-                  message: "알 수 없는 에러"
-                })
-          }
-          models.t_user.update({
-              user_point_money : user[0].dataValues.user_point_money - req.body.used_point
-          }, {
-              where : { id : req.body.user_id }
+        if (user[0].dataValues.user_point_money - req.body.used_point < 0) {
+          res.status(500).json({
+            success: false,
+            message: "알 수 없는 에러"
           })
-        
+        }
+        models.t_user.update({
+          user_point_money: user[0].dataValues.user_point_money - req.body.used_point
+        }, {
+          where: { id: req.body.user_id }
+        })
+
       })
-    } catch (err) {
-      res.status(500).json({
-        success: false,
-        message: err.message
-      })
-    }    
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message
+    })
+  }
 })
 
 module.exports = router
