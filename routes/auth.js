@@ -1,7 +1,6 @@
 const router = require('express').Router()
 const { sequelize } = require('../models');
 const initModels = require("../models/init-models");
-const User = require("../models/user")
 const models = initModels(sequelize);
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
