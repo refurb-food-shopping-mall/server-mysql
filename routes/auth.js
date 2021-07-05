@@ -1,5 +1,8 @@
 const router = require('express').Router()
+const { sequelize } = require('../models');
+const initModels = require("../models/init-models");
 const User = require("../models/user")
+const models = initModels(sequelize);
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
@@ -20,7 +23,7 @@ router.post('/auth/signup', async (req, res) => {
   }
   // ... validate ....
   try {
-    const isUserAlreadyExist = await User.findOne({
+    const isUserAlreadyExist = await models.t_user.findOne({
       where: {
         user_email: req.body.userEmail
       }
@@ -33,10 +36,10 @@ router.post('/auth/signup', async (req, res) => {
       })
     }
 
-    const hashedPassword =  await bcrypt.hash(req.body.userPassword.trim(), 12)
-    
+    const hashedPassword = await bcrypt.hash(req.body.userPassword.trim(), 12)
+
     if (hashedPassword) {
-      const newUser = await User.create({
+      const newUser = await models.t_user.create({
         user_name: req.body.userName,
         phone_number: req.body.userPhoneNumber,
         user_email: req.body.userEmail,
@@ -83,9 +86,9 @@ router.post('/auth/login', async (req, res) => {
         success: false,
         message: "아이디나 패스워드가 입력되지 않았습니다."
       })
-    } 
+    }
 
-    const foundUser = await User.findOne({
+    const foundUser = await models.t_user.findOne({
       where: {
         user_email: req.body.userEmail
       }
@@ -97,8 +100,8 @@ router.post('/auth/login', async (req, res) => {
         message: "인증 실패, 존재하지 않는 유저입니다."
       })
     } else {
-      const isValidUser = await bcrypt.compare(req.body.userPassword, foundUser.user_password) 
-      
+      const isValidUser = await bcrypt.compare(req.body.userPassword, foundUser.user_password)
+
       if (isValidUser) {
         const tokenData = jwt.sign(foundUser.toJSON(), process.env.SECRET, {
           expiresIn: '1h'
