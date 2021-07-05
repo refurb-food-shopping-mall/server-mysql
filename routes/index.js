@@ -16,7 +16,7 @@ router.get('/auth/user', verifyToken, async (req, res) => {
     // req.decode 확인 =>
     //  console.log(req.decode)
     console.log('hi')
-    const user = await User.findOne({ _id: req.decode._id })
+    const user = await models.t_user.findOne({ _id: req.decode._id })
 
     res.json({
       success: true,
@@ -34,7 +34,7 @@ router.get('/auth/user', verifyToken, async (req, res) => {
 // [ user 전체 조회 ]
 router.get('/user', async (req, res) => {
   try {
-    const users = await User.findAll()
+    const users = await models.t_user.findAll()
     res.json({
       success: true,
       users,
@@ -50,7 +50,7 @@ router.get('/user', async (req, res) => {
 // [ user 등록 ]
 router.post('/user', async (req, res) => {
   try {
-    const user = await User.create({
+    const user = await models.t_user.create({
       user_name: req.body.name,
       phone_number: req.body.phoneNumber,
       user_email: req.body.email,
@@ -148,34 +148,34 @@ router.delete('/review/:id', async (req, res) => {
 
 // 유저가 사용한 포인트 반영
 router.post('/userpoint', async (req, res) => {
-    try {
-      // console.log(req.body)
-      models.t_user.findAll({ 
-          where : {
-              id : req.body.user_id
-          },
-          attributes: ['user_point_money'],
-      })
+  try {
+    // console.log(req.body)
+    models.t_user.findAll({
+      where: {
+        id: req.body.user_id
+      },
+      attributes: ['user_point_money'],
+    })
       .then((user) => {
-          if(user[0].dataValues.user_point_money - req.body.used_point < 0){
-              res.status(500).json({
-                  success: false,
-                  message: "알 수 없는 에러"
-                })
-          }
-          models.t_user.update({
-              user_point_money : user[0].dataValues.user_point_money - req.body.used_point
-          }, {
-              where : { id : req.body.user_id }
+        if (user[0].dataValues.user_point_money - req.body.used_point < 0) {
+          res.status(500).json({
+            success: false,
+            message: "알 수 없는 에러"
           })
-        
+        }
+        models.t_user.update({
+          user_point_money: user[0].dataValues.user_point_money - req.body.used_point
+        }, {
+          where: { id: req.body.user_id }
+        })
+
       })
-    } catch (err) {
-      res.status(500).json({
-        success: false,
-        message: err.message
-      })
-    }    
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message
+    })
+  }
 })
 
 module.exports = router
