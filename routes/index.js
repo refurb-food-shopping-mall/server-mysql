@@ -1,6 +1,4 @@
 const router = require('express').Router()
-const Review = require('../models/review')
-const User = require('../models/user')
 const verifyToken = require('../middlewares/verify-token')
 
 const { sequelize } = require('../models');
