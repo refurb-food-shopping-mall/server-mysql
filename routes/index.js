@@ -69,7 +69,7 @@ router.post('/user', async (req, res) => {
 // [ 리뷰 등록 ]
 router.post('/review', async (req, res) => {
   try {
-    const review = await Review.create({
+    const review = await models.t_review.create({
       commenter: req.body.id,
       review_title: req.body.review,
       review_description: req.body.description,
@@ -90,7 +90,7 @@ router.post('/review', async (req, res) => {
 // [ 특정 유저가 쓴 리뷰 조회 ]
 router.get('/:id/reviews', async (req, res) => {
   try {
-    const reviews = await Review.findAll({
+    const reviews = await models.t_review.findAll({
       where: { commenter: req.params.id },
       // include: {
       //   model: User,
@@ -112,7 +112,7 @@ router.get('/:id/reviews', async (req, res) => {
 // [ 리뷰 전체 조회 ]
 router.get('/reviews', async (req, res) => {
   try {
-    const reviews = await Review.findAll()
+    const reviews = await models.t_review.findAll()
     res.json({
       success: true,
       reviews
@@ -128,7 +128,7 @@ router.get('/reviews', async (req, res) => {
 // [ 특정 리뷰 삭제 ]
 router.delete('/review/:id', async (req, res) => {
   try {
-    const result = await Review.destroy({
+    const result = await models.t_review.destroy({
       where: {
         id: req.params.id
       }
