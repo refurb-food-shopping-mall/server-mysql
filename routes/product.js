@@ -124,7 +124,31 @@ router.get('/product/:id', async (req, res) => {
     }
 
   });
-  
+
+router.post('/product/productname', async (req, res) => {
+    try {
+        product_name = await models.t_product.findAll({
+            where : {
+                id : req.body.product_id
+            },
+            attributes : ['product_name']
+        })
+        // console.log(product_name)
+        res.json({
+            success : true,
+            product_name : product_name[0].dataValues.product_name
+        })
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            message: err.message
+        })
+    }
+    
+
+})
+
+
 module.exports = router
 
 // });

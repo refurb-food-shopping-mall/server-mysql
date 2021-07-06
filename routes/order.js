@@ -6,7 +6,7 @@ const  models  =  initModels ( sequelize );
 
 // 주문하였을 떄 주문정보를 저장하는 라우터
 router.post('/order/create', async (req, res) => {   
-    console.log(req.body)
+    // console.log(req.body)
     try {     
         await models.t_order.create({ 
             user_id: req.body.user_id, 
@@ -21,6 +21,27 @@ router.post('/order/create', async (req, res) => {
         });
         res.json({
             success: true
+        })
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            message: err.message
+        })
+    }
+})
+
+router.post('/order/productid', async (req, res) => {
+    try {
+        product_id = await models.t_order.findAll({
+            where : {
+                id : req.body.orderid
+            },
+            attributes: ['product_id', 'product_amount']
+        })
+        // console.log(product_id)
+        res.json({
+            success : true,
+            product_id : product_id[0].dataValues
         })
     } catch (err) {
         res.status(500).json({
