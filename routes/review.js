@@ -4,6 +4,7 @@ const { model } = require('mongoose');
 const { sequelize, Review } = require('../models');
 const  initModels  =  require ( "../models/init-models" );
 const t_product_image = require('../models/t_product_image');
+const t_user = require('../models/t_user');
 
 const  models  =  initModels ( sequelize );
 
@@ -14,16 +15,21 @@ router.get('/review/:id', async (req, res) => {
         const review = await models.t_review.findAll({
         where : {product_id : req.params.id},
         include: [{
-            as : 't_review_images',
+            as : 't_review_images', 
             model: models.t_review_image,
             attributes: ['path'],
             where: {
                 product_id : req.params.id,
-            }
+            },            
+        },
+        {
+            as : 'user',
+            model: models.t_user,
+            attributes: ['user_name']
         }]
-    })
+    });
         res.json({
-            review 
+            review
         })
     } catch (err) {
         res.status(500).json({
