@@ -40,6 +40,7 @@ const pdatilroutes = require('./routes/pdetail');
 const addressroutes = require('./routes/address');
 const orderroutes = require('./routes/order');
 const userRoutes = require('./routes/user')
+const productimageroutes = require('./routes/productimage');
 
 app.use('/api', routes)
 app.use('/api', authRoutes)
@@ -50,6 +51,7 @@ app.use('/api', pdatilroutes)
 app.use('/api', addressroutes)
 app.use('/api', orderroutes)
 app.use('/api', userRoutes)
+app.use('/api', productimageroutes)
 
 
 
