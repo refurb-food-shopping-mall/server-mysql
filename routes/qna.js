@@ -14,7 +14,12 @@ router.get('/qna/:id', async (req, res) => {
         const qna = await models.t_question.findAll({
         where : {
             product_id : req.params.id
-        }
+        },
+        include : [{
+            as: 'user',
+            model: models.t_user,
+            attributes: ['user_name']
+        }]
       })
         res.json({
             qna
