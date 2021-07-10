@@ -154,20 +154,20 @@ router.post('/userpoint', async (req, res) => {
       },
       attributes: ['user_point_money'],
     })
-    .then((user) => {
-      if (user[0].dataValues.user_point_money - req.body.used_point < 0) {
-        res.status(500).json({
-          success: false,
-          message: "알 수 없는 에러"
+      .then((user) => {
+        if (user[0].dataValues.user_point_money - req.body.used_point < 0) {
+          res.status(500).json({
+            success: false,
+            message: "알 수 없는 에러"
+          })
+        }
+        models.t_user.update({
+          user_point_money: user[0].dataValues.user_point_money - req.body.used_point
+        }, {
+          where: { id: req.body.user_id }
         })
-      }
-      models.t_user.update({
-        user_point_money: user[0].dataValues.user_point_money - req.body.used_point
-      }, {
-        where: { id: req.body.user_id }
-      })
 
-    })
+      })
   } catch (err) {
     res.status(500).json({
       success: false,

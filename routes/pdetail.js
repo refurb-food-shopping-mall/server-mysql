@@ -71,20 +71,9 @@ router.post('/getDate', async (req, res) => {
         let endDate = req.body.dayarr[1]
         const getgett = await models.t_order.findAll({
             where: {
-                // expected_del_day: req.body.dayarr[i](i=0,1)
-                // expected_del_day: { gte: req.body.dayarr[0] },
-                // expected_del_day: { lte: req.body.dayarr[1] }
-
-                [Op.or]: [{
-                    expected_del_day: {
-                        [Op.between]: [startDate, endDate]
-                    }
-                }, {
-                    expected_del_day: {
-                        [Op.between]: [startDate, endDate]
-                    }
-                }]
-
+                ordered_day: {
+                    [Op.between]: [startDate, endDate]
+                }
             }
         })
         //console.log(getgett)
@@ -100,14 +89,6 @@ router.post('/getDate', async (req, res) => {
     }
 })
 
-
-
-// router.post('/getget', function (req, res, next) {
-//     let number = req.body.num;
-//     db.query('SELECT * FROM t_order WHERE REGDATE BETWEEN TO_DATE('20210705', 'YYYYMMDD') AND TO_DATE('20210707')', req.body.num, (err, rows, fields) => {
-//         res.send(rows);
-//     });
-// });
 
 
 
