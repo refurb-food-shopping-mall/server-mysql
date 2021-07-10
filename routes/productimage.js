@@ -11,7 +11,7 @@ router.post('/productimage/thumbnail', async(req, res) => {
             type_image : 1
         }
     })
-    console.log(thumbnail)
+    // console.log(thumbnail)
     res.json({
         success : true,
         thumbnail : thumbnail[0].dataValues.path
