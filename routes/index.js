@@ -176,4 +176,30 @@ router.post('/userpoint', async (req, res) => {
   }
 })
 
+// 리뷰작성시 포인트 지급
+router.post('/user/reviewpoint', async (req, res) => {
+  try {
+    // console.log(req.body)
+    models.t_user.findAll({
+      where: {
+        id: req.body.user_id
+      },
+      attributes: ['user_point_money'],
+    })
+    .then((user) => {
+      models.t_user.update({
+        user_point_money: user[0].dataValues.user_point_money + req.body.point
+      }, {
+        where: { id: req.body.user_id }
+      })
+
+    })
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message
+    })
+  }
+})
+
 module.exports = router
