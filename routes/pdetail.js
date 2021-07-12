@@ -67,19 +67,37 @@ router.post('/getAddress', async (req, res) => {
 
 router.post('/getDate', async (req, res) => {
     try {
+        let arr = []
         let startDate = req.body.dayarr[0]
         let endDate = req.body.dayarr[1]
-        const getgett = await models.t_order.findAll({
+        await models.t_order.findAll({
             where: {
                 ordered_day: {
                     [Op.between]: [startDate, endDate]
-                }
-            }
+                },
+                user_id: req.body.user_id,
+            },
+            attributes: ['id', 'product_amount', 'order_status', 'ordered_day', 'product_id']
         })
-        //console.log(getgett)
+            .then(async (order) => {
+                //console.log(order)
+                for (let i = 0; i < order.length; i++) {
+                    let data = await models.t_product.findAll({
+                        where: {
+                            id: order[i].dataValues.product_id
+                        },
+                        attributes: ['product_name', 'product_price', 'delivery_price', 'add_delivery_price']
+                    })
+                    //console.log(data)
+                    order[i].dataValues.key = data[0].dataValues
+                    arr.push(order[i].dataValues)
+                }
+                //console.log(arr)
+            })
+
         res.json({
             success: true,
-            getgett,
+            arr,
         })
     } catch (err) {
         res.status(500).json({
