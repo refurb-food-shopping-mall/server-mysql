@@ -28,6 +28,7 @@ router.post('/product/thumnail', async (req, res) => {
         //console.log(product[0].dataValues);
         //console.log(product[0].dataValues.t_product_images[0].dataValues);
         res_array.push(product[0].dataValues);
+        // console.log(res_array);
     }
     //console.log(res_array);
     res.send(res_array);
