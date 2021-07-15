@@ -87,7 +87,7 @@ router.post('/reviewimage/save', upload.single('image'), async (req, res) => {
             product_id : req.body.product_id,
             path : req.file.path
         })
-        console.log(req.file.path);
+        // console.log(req.file.path);
         sharp(req.file.path)	// 리사이징할 파일의 경로
         .resize(120, 120, {
             fit: sharp.fit.inside,
@@ -105,15 +105,15 @@ router.post('/reviewimage/save', upload.single('image'), async (req, res) => {
               }				            
             })                  
     	})
+        res.json({
+            success : true
+        })
     } catch (err) {
         res.status(500).json({
             success: false,
             message: err.message
         })
-    }
-            
-    
-    
+    }  
 })
 
 // 리뷰이미지 라우터 예제
