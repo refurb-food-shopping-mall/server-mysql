@@ -5,30 +5,6 @@ const { sequelize } = require('../models');
 const initModels = require("../models/init-models");
 const models = initModels(sequelize);
 
-// [ 특정 user 조회 ]
-router.get('/auth/user', verifyToken, async (req, res) => {
-  try {
-    // verify-token 미들웨어에서 token 을 확인하면 req.decode에 유저 정보를 넣어줌.
-    // token을 확인하지 못하면 api 접근 불가.
-
-    // req.decode 확인 =>
-    //  console.log(req.decode)
-    console.log('hi')
-    const user = await models.t_user.findOne({ _id: req.decode._id })
-
-    res.json({
-      success: true,
-      user,
-    })
-
-  } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: err.message
-    })
-  }
-})
-
 // [ user 전체 조회 ]
 router.get('/user', async (req, res) => {
   try {

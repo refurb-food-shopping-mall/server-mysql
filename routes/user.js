@@ -84,4 +84,31 @@ router.put('/profileupdate', verifyToken, async (req, res) => {
   }
 })
 
+
+// [ 특정 user 조회 ]
+router.get('/userinfo', verifyToken, async (req, res) => {
+  // verify-token 미들웨어에서 token 을 확인하면 req.decode에 유저 정보를 넣어줌.
+    // token을 확인하지 못하면 api 접근 불가.
+  try {
+    // req.decode 확인 =>
+    // console.log(req.decode)
+    const user = await models.t_user.findOne({ 
+      where : {
+        id : req.decode.id
+      }
+     })
+    // console.log(user)
+
+    res.json({
+      success: true,
+      user : user.dataValues,
+    })
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message
+    })
+  }
+})
+
 module.exports = router
