@@ -25,16 +25,17 @@ router.post('/getProduct', async (req, res) => {
 })
 
 
-router.post('/getOrder', async (req, res) => {
+router.post('/paymentdetail/:id', async (req, res) => {
     try {
         const getorder = await models.t_order.findAll({
             where: {
-                id: req.body.id
+                // id: req.body.id
+                id: req.params.id
             }
         })
         res.json({
             success: true,
-            getorder,
+            getorder
         })
     } catch (err) {
         res.status(500).json({
