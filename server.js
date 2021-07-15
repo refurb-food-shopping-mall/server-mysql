@@ -42,6 +42,7 @@ const orderroutes = require('./routes/order');
 const userRoutes = require('./routes/user')
 const productimageroutes = require('./routes/productimage');
 
+app.use(express.static('public'));
 app.use('/api', routes)
 app.use('/api', authRoutes)
 app.use('/api', productroutes)

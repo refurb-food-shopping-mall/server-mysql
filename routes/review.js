@@ -5,11 +5,22 @@ const { sequelize, Review } = require('../models');
 const  initModels  =  require ( "../models/init-models" );
 const t_product_image = require('../models/t_product_image');
 const t_user = require('../models/t_user');
-
 const  models  =  initModels ( sequelize );
 
-var multer  = require('multer')
-var upload = multer({ dest: 'images/' })
+const multer  = require('multer')
+const sharp = require('sharp')
+const fs = require('fs')
+
+// 이미지 저장위치와 파일명
+const imagestorage = multer.diskStorage({
+    destination : (req, file, cb) => {
+        cb(null, './images')
+    },
+    filename : (req, file, cb) => {
+        cb(null, Date.now() + "__" + file.originalname)
+    }
+})
+const upload = multer({ storage : imagestorage})
 
 
 
@@ -42,6 +53,7 @@ router.get('/review/:id', async (req, res) => {
     }
 });
 
+//리뷰 저장
 router.post('/review/save', async (req, res) => {   
     console.log(req.body)
     try {     
@@ -65,16 +77,63 @@ router.post('/review/save', async (req, res) => {
     }
 })
 
+// 리뷰이미지 저장 
 router.post('/reviewimage/save', upload.single('image'), async (req, res) => {
-     console.log(req.file)
-     console.log(req.body)
-    await models.t_review_image.create({
-        review_id : req.body.review_id,
-        product_id : req.body.product_id,
-        path : req.file.path
-
-    })
+    //  console.log(req.file)
+    //  console.log(req.body)
+    try {
+        await models.t_review_image.create({
+            review_id : req.body.review_id,
+            product_id : req.body.product_id,
+            path : req.file.path
+        })
+        // console.log(req.file.path);
+        sharp(req.file.path)	// 리사이징할 파일의 경로
+        .resize(120, 120, {
+            fit: sharp.fit.inside,
+            withoutEnlargement: true
+        })
+        .withMetadata()
+        .toFile(`./public/images/${req.file.filename}`, (err, info)=>{
+            if(err) {
+                console.log(err);
+            }              
+            // console.log(`info : ${info}`)
+            fs.unlink(`./images/${req.file.filename}`, (err)=>{	
+              if(err) {
+                  console.log(err);
+              }				            
+            })                  
+    	})
+        res.json({
+            success : true
+        })
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            message: err.message
+        })
+    }  
 })
+
+// 리뷰이미지 라우터 예제
+// router.post('/review/image', async (req, res) => {
+//     console.log(req.body)
+//     let image = await models.t_review_image.findAll({
+//         where : {
+//             review_id : req.body.review_id
+//         },
+//         attributes: ['path']
+//     })
+//     console.log(image)
+//     const imgUrl = "http://localhost:3000/" 
+//     result = imgUrl+`${image[0].dataValues.path}` //imgUrl+"kitty.png" 
+//     res.json({
+//         success : true,
+//         result
+//     })
+// })
+
 
 
 
