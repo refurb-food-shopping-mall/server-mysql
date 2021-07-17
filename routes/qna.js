@@ -4,6 +4,8 @@ const { model } = require('mongoose');
 const { sequelize, Review } = require('../models');
 const  initModels  =  require ( "../models/init-models" );
 const t_product_image = require('../models/t_product_image');
+const verifyToken = require('../middlewares/verify-token')
+
 
 const  models  =  initModels ( sequelize );
 
@@ -53,6 +55,25 @@ router.post('/qna/save', async (req, res) => {
             message: err.message
         })
     }
-})
+});
+
+router.get('/dltjddn', verifyToken, (req, res) => {
+    try {
+      const { user_name, id } = req.decode
+      res.json({
+        success: true,
+        userInfo: {
+          user_name,
+          id
+        }
+      })
+      console.log(req.decode)
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        message: err.message
+      })
+    }
+  });
 
 module.exports = router
