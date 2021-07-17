@@ -34,12 +34,30 @@ router.get('/qna/:id', async (req, res) => {
     }
 });
 
+router.get('/readqna/:id', async (req, res) => {
+    try {
+        const qna = await models.t_question.findOne({
+        where : {
+            id : req.params.id
+        },
+      })
+        res.json({
+            qna
+        })
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            message: err.message,
+        })
+    }
+});
+
 router.post('/qna/save', async (req, res) => {
     try {
         let SavaQna = await models.t_question.create({
             q_title : req.body.q_title,
             q_description : req.body.q_description,
-            user_id : 1,
+            user_id : req.body.user_id,
             product_id : req.body.product_id,
             q_type: 1,
             answer_status: 1
