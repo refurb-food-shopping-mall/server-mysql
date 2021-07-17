@@ -67,7 +67,7 @@ router.get('/dltjddn', verifyToken, (req, res) => {
           id
         }
       })
-      console.log(req.decode)
+
     } catch (err) {
       res.status(500).json({
         success: false,
