@@ -36,6 +36,10 @@ class t_question extends Sequelize.Model {
       type: DataTypes.STRING(1000),
       allowNull: false
     },
+    answer_description: {
+      type: DataTypes.STRING(1000),
+      allowNull: true
+    },
     q_created: {
       type: DataTypes.DATE,
       allowNull: false,

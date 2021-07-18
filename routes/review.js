@@ -127,7 +127,7 @@ router.post('/reviewimage/save', upload.single('image'), async (req, res) => {
 //     })
 //     console.log(image)
 //     const imgUrl = "http://localhost:3000/" 
-//     result = imgUrl+`${image[0].dataValues.path}` //imgUrl+"kitty.png" 
+//     result = imgUrl+`${image[0].dataValues.path}` 
 //     res.json({
 //         success : true,
 //         result
