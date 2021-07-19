@@ -41,6 +41,8 @@ const addressroutes = require('./routes/address');
 const orderroutes = require('./routes/order');
 const userRoutes = require('./routes/user')
 const productimageroutes = require('./routes/productimage');
+const cancelroutes = require('./routes/cancel');
+
 
 app.use(express.static('public'));
 app.use('/api', routes)
@@ -53,6 +55,8 @@ app.use('/api', addressroutes)
 app.use('/api', orderroutes)
 app.use('/api', userRoutes)
 app.use('/api', productimageroutes)
+app.use('/api', cancelroutes)
+
 
 
 
