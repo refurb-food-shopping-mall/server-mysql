@@ -47,9 +47,11 @@ router.get('/paymentdetail_cancel/:id', async (req, res) => {
 
 router.post('/paymentdetail_cancel_image', async (req, res) => {
     try {
-        const image = await models.t_product_image.findOne({
-            product_id: req.body.product_id,
-            where: {type_image : 1},
+        const image = await models.t_product_image.findOne({            
+            where: {
+                product_id: req.body.product_id,
+                type_image: 1
+            },
             attributes: ['path']
         })
         res.json({
@@ -62,6 +64,6 @@ router.post('/paymentdetail_cancel_image', async (req, res) => {
             message: err.message
         })
     }
-})
+});
 
 module.exports = router
