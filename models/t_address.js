@@ -57,7 +57,8 @@ class t_address extends Sequelize.Model {
   }, {
     sequelize,
     tableName: 't_address',
-    timestamps: false,
+    timestamps: true,
+    paranoid: true,
     indexes: [
       {
         name: "PRIMARY",
