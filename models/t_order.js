@@ -55,7 +55,7 @@ class t_order extends Sequelize.Model {
     order_status: {
       type: DataTypes.STRING(30),
       allowNull: false,
-      comment: "입금대기, 배송준비중, 배송중, 배송완료, 반품완료"
+      comment: "입금대기, 배송준비중, 배송중, 배송완료, 반품완료, 미결제취소완료"
     },
     ordered_day: {
       type: DataTypes.DATE,
