@@ -4,7 +4,7 @@ const initModels = require("../models/init-models");
 const verifyToken = require('../middlewares/verify-token');
 const models = initModels(sequelize);
 
-// 주문하였을 떄 주문정보를 저장하는 라우터
+// 주문하였을 때 주문정보를 저장하는 라우터
 router.post('/order/create', async (req, res) => {
     // console.log(req.body)
     try {
@@ -53,15 +53,16 @@ router.post('/order/productid', async (req, res) => {
 
 
 
-//주문취소버튼->주문내역삭제
+//주문취소버튼->상태변경
 router.post('/cancelOrder', async (req, res) => {
     try {
-        console.log(req.body.id)
-        await models.t_order.destroy({
-            where: {
-                id: req.body.id
-            }
-        })
+        //console.log(req.body.id)
+        await models.t_order.update({
+            order_status: '미결제취소완료'
+        },
+            {
+                where: { id: req.body.id }
+            })
         res.json({
             success: true,
         })
