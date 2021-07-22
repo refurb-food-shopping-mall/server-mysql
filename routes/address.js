@@ -51,7 +51,17 @@ router.post('/address/save', async (req, res) => {
     // console.log(req.body);
     try {
         if(req.body.default_address){
-            models.t_address.update({
+            await models.t_address.destroy({
+                where : {
+                    default_address : 1,
+                    user_id : req.body.user_id
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            })
+
+            let newaddress = await models.t_address.create({
                 user_id : req.body.user_id,
                 receiver : req.body.receiver,
                 address_name : req.body.address_name,
@@ -61,18 +71,14 @@ router.post('/address/save', async (req, res) => {
                 phonenumber : req.body.phonenumber,
                 address_list : true,
                 default_address : req.body.default_address
-            }, {
-                where : {
-                    default_address : 1,
-                    user_id : req.body.user_id
-                }
             })
             .catch(err => {
                 console.log(err)
             })
-            // console.log(newaddress)
+            console.log(newaddress)
             res.json({
-                success : true
+                success : true,
+                address_id : newaddress.dataValues.id
             })
         } else {
             let newaddress = await models.t_address.create({
@@ -86,7 +92,7 @@ router.post('/address/save', async (req, res) => {
                 address_list : req.body.address_list,
                 default_address : req.body.default_address
             })
-            console.log(newaddress.dataValues.id)
+            // console.log(newaddress.dataValues.id)
             res.json({
                 success : true,
                 address_id : newaddress.dataValues.id
@@ -106,7 +112,17 @@ router.post('/addresslist/save', async (req, res) => {
     // console.log(req.body);
     try {
         if(req.body.default_address){
-            models.t_address.update({
+            models.t_address.destroy({
+                where : {
+                    default_address : 1,
+                    user_id : req.body.user_id
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            })
+
+            models.t_address.create({
                 user_id : req.body.user_id,
                 receiver : req.body.receiver,
                 address_name : req.body.address_name,
@@ -116,11 +132,6 @@ router.post('/addresslist/save', async (req, res) => {
                 phonenumber : req.body.phonenumber,
                 address_list : req.body.address_list,
                 default_address : req.body.default_address
-            }, {
-                where : {
-                    default_address : 1,
-                    user_id : req.body.user_id
-                }
             })
             .catch(err => {
                 console.log(err)
@@ -148,6 +159,46 @@ router.post('/addresslist/save', async (req, res) => {
                 success : true              
             })
         }
+        
+    } catch (err) {
+        res.status(500).json({
+            success : false,
+            message : err.message
+        })
+    }
+})
+
+router.post('/updateaddress', async (req, res) => {
+    // console.log(req.body)
+    try {
+        models.t_address.destroy({
+            where : {
+                id : req.body.id,
+                user_id : req.body.user_id
+            }
+        })
+        .catch(err => {
+            console.log(err)
+        })
+
+        models.t_address.create({
+            user_id : req.body.user_id,
+            receiver : req.body.receiver,
+            address_name : req.body.address_name,
+            post_code : req.body.post_code,
+            address : req.body.address,
+            detailed_address : req.body.detailed_address,
+            phonenumber : req.body.phonenumber,
+            address_list : req.body.address_list,
+            default_address : req.body.default_address
+        })
+        .catch(err => {
+            console.log(err)
+        })
+        // console.log(newaddress)
+        res.json({
+            success : true
+        })
         
     } catch (err) {
         res.status(500).json({
