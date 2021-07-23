@@ -4,6 +4,7 @@ const initModels = require("../models/init-models");
 const models = initModels(sequelize);
 const verifyToken = require('../middlewares/verify-token')
 const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 
 // API get user profile 
 router.get('/userprofile', verifyToken, (req, res) => {
@@ -50,7 +51,7 @@ router.put('/profileupdate', verifyToken, async (req, res) => {
     })
 
     const hashedPassword = await bcrypt.hash(req.body.newPassword.trim(), 12)
-
+    console.log(hashedPassword)
     // 새로운 user 정보로 db table update
     preUserInfo.user_name = newUserData.userName
     preUserInfo.user_password = hashedPassword
@@ -65,6 +66,10 @@ router.put('/profileupdate', verifyToken, async (req, res) => {
       }
     })
 
+    const tokenData = jwt.sign(changedUserData.toJSON(), process.env.SECRET, {
+      expiresIn: '1h'
+    })
+
     // 응답으로 보낼 유저 객체 조립
     newUserInfo = {}
     newUserInfo.userName = changedUserData.user_name
@@ -75,6 +80,7 @@ router.put('/profileupdate', verifyToken, async (req, res) => {
     res.json({
       success: true,
       newUserInfo,
+      tokenData
     })
   } catch (err) {
     res.status(500).json({
