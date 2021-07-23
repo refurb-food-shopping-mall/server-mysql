@@ -84,24 +84,46 @@ router.put('/profileupdate', verifyToken, async (req, res) => {
   }
 })
 
+// API delete account 
+router.delete('/deleteaccount', verifyToken, async (req, res) => {
+  try {
+    const user = await models.t_user.findOne({
+      where: {
+        id: req.decode.id
+      }
+    })
+
+    await user.destroy()
+
+    res.json({
+      success: true,
+      message: '유저 삭제 완료'
+    })
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message
+    })
+  }
+})
 
 // [ 특정 user 조회 ]
 router.get('/userinfo', verifyToken, async (req, res) => {
   // verify-token 미들웨어에서 token 을 확인하면 req.decode에 유저 정보를 넣어줌.
-    // token을 확인하지 못하면 api 접근 불가.
+  // token을 확인하지 못하면 api 접근 불가.
   try {
     // req.decode 확인 =>
     // console.log(req.decode)
-    const user = await models.t_user.findOne({ 
-      where : {
-        id : req.decode.id
+    const user = await models.t_user.findOne({
+      where: {
+        id: req.decode.id
       }
-     })
+    })
     // console.log(user)
 
     res.json({
       success: true,
-      user : user.dataValues,
+      user: user.dataValues,
     })
   } catch (err) {
     res.status(500).json({
