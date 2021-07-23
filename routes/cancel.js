@@ -11,19 +11,12 @@ const  models  =  initModels ( sequelize );
 
 
 router.get('/paymentdetail_cancel/:id', async (req, res) => {
+    let pd_info = {}
+    let pd_image = {}
     try {
-        // console.log(req.params.id);
         const detail = await models.t_order.findOne({
         where : {id : req.params.id},
         include: [{
-        //     as : 't_product_images', 
-        //     model: models.t_product_image,
-        //     attributes: ['path'],
-        //     where: {
-        //         type_image : 1,
-        //     },            
-        // },
-        // {
             as : 'product',
             model: models.t_product,
             attributes: ['product_name',
@@ -32,9 +25,24 @@ router.get('/paymentdetail_cancel/:id', async (req, res) => {
         ]
         }]
     })
+    .then(async(order) => {
+        let pdct = await models.t_product_image.findOne({
+            where: {
+                product_id:order.dataValues.product_id,
+                type_image : 1
+            },
+            attributes: ['path']
+
+        }) 
+        pd_info = order;
+        pd_image = pdct;
+
+    })
+    
         res.json({
             success: true,
-            detail        
+            pd_info,
+            pd_image
         })
     
     } catch (err) {
@@ -45,26 +53,5 @@ router.get('/paymentdetail_cancel/:id', async (req, res) => {
     }
 });
 
-router.get('/paymentdetail_cancel_image/:id', async (req, res) => {
-    // console.log(req.params)
-    try {
-        const image = await models.t_product_image.findOne({            
-            where: {
-                product_id: req.params.id,
-                type_image: 1
-            },
-            attributes: ['path']
-        })
-        res.json({
-            success: true,
-            image
-        })
-    } catch (err) {
-        res.status(500).json({
-            success: false,
-            message: err.message
-        })
-    }
-});
 
 module.exports = router
