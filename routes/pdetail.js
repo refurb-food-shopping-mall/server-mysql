@@ -98,7 +98,7 @@ router.post('/getDate', async (req, res) => {
                 for (let i = 0; i < order.length; i++) {
                     if (order[i].dataValues.order_status == '배송준비중') { cnt1 += 1 }
                     else if (order[i].dataValues.order_status == '배송중') { cnt2 += 1 }
-                    else if (order[i].dataValues.order_status == '반품중') { cnt3 += 1 }
+                    else if (order[i].dataValues.order_status == '교환/환불중') { cnt3 += 1 }
 
                     let data = await models.t_product.findAll({
                         where: {
