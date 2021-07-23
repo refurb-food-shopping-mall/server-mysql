@@ -54,7 +54,7 @@ router.post('/auth/signup', async (req, res) => {
         userName: req.body.userName,
         userPhoneNumber: req.body.userPhoneNumber,
         userEmail: req.body.userEmail,
-        userPointMoney: req.body.userPointMoney
+        userPointMoney: 0
       }
 
       res.json({
