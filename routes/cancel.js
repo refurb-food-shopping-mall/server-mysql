@@ -45,11 +45,12 @@ router.get('/paymentdetail_cancel/:id', async (req, res) => {
     }
 });
 
-router.post('/paymentdetail_cancel_image', async (req, res) => {
+router.get('/paymentdetail_cancel_image/:id', async (req, res) => {
+    // console.log(req.params)
     try {
         const image = await models.t_product_image.findOne({            
             where: {
-                product_id: req.body.product_id,
+                product_id: req.params.id,
                 type_image: 1
             },
             attributes: ['path']
