@@ -23,7 +23,7 @@ const imagestorage = multer.diskStorage({
 const upload = multer({ storage : imagestorage})
 
 
-
+// 제품 상세페이지 - 리뷰/리뷰 이미지 가져오기
 router.get('/review/:id', async (req, res) => {
     try {
         const review = await models.t_review.findAll({
@@ -41,9 +41,9 @@ router.get('/review/:id', async (req, res) => {
             model: models.t_user,
             attributes: ['user_name']
         }]
-    });
+    })
         res.json({
-            review
+            review,
         })
     } catch (err) {
         res.status(500).json({
