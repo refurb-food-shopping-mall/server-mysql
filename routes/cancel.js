@@ -53,5 +53,26 @@ router.get('/paymentdetail_cancel/:id', async (req, res) => {
     }
 });
 
+router.post('/exchange', async (req, res) => {
+    try {
+        //console.log(req.body.id)
+        await models.t_order.update({
+            order_status: '교환/환불중'
+        },
+            {
+                where: { id: req.body.id }
+            })
+        res.json({
+            success: true,
+        })
+
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            message: err.message
+        })
+    }
+})
+
 
 module.exports = router
